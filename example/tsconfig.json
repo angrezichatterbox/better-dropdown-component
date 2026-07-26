@@ -1,0 +1,10 @@
+{
+  "extends": "expo/tsconfig.base",
+  "compilerOptions": {
+    "strict": true,
+    "paths": {
+      "better-dropdown-component": ["../src/index"],
+      "better-dropdown-component/*": ["../src/*"]
+    }
+  }
+}
