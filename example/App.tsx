@@ -1,98 +1,46 @@
-import BetterDropdownComponent, { BetterDropdownComponentView, BetterDropdownComponentSwiftUIView, BetterDropdownComponentComposeView, betterDropdownComponentSwiftUIModifier, betterDropdownComponentComposeModifier, useBetterDropdownComponentModuleSharedObject } from 'better-dropdown-component';
-import { useEvent } from 'expo';
-import { Host as SwiftUIHost, Text as SwiftUIText } from '@expo/ui/swift-ui';
-import { padding, cornerRadius, background } from '@expo/ui/swift-ui/modifiers';
-import { VStack } from '@expo/ui/swift-ui';
-import { Host as ComposeHost, Text as ComposeText } from '@expo/ui/jetpack-compose';
-import { paddingAll, background as composeBackground } from '@expo/ui/jetpack-compose/modifiers';
-import { Column } from '@expo/ui/jetpack-compose';
+import { BetterDropdownComponentSwiftUIView, BetterDropdownComponentComposeView } from 'better-dropdown-component';
+import { Host as SwiftUIHost } from '@expo/ui/swift-ui';
+import { padding } from '@expo/ui/swift-ui/modifiers';
+import { Host as ComposeHost } from '@expo/ui/jetpack-compose';
+import { paddingAll } from '@expo/ui/jetpack-compose/modifiers';
 import { useState } from 'react';
-import { Button, SafeAreaView, ScrollView, Text, View } from 'react-native';
+import { SafeAreaView, ScrollView, Text, View } from 'react-native';
+
+const OPTIONS = ['Apple', 'Banana', 'Cherry', 'Date'];
 
 export default function App() {
-  const onChangePayload = useEvent(BetterDropdownComponent, 'onChange');
-  const sharedObject = useBetterDropdownComponentModuleSharedObject();
-  const [sharedObjectCount, setSharedObjectCount] = useState(0);
+  const [selectedValue, setSelectedValue] = useState<string | undefined>(undefined);
+
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView style={styles.container}>
-        <Text style={styles.header}>Module API Example</Text>
-        <Group name="Constants">
-          <Text>{BetterDropdownComponent.PI}</Text>
-        </Group>
-        <Group name="Functions">
-          <Text>{BetterDropdownComponent.hello()}</Text>
-        </Group>
-        <Group name="Async functions">
-          <Button
-            title="Set value"
-            onPress={async () => {
-              await BetterDropdownComponent.setValueAsync('Hello from JS!');
-            }}
-          />
-        </Group>
-        <Group name="Events">
-          <Text>{onChangePayload?.value}</Text>
-        </Group>
-        <Group name="Views">
-          <BetterDropdownComponentView onTap={() => console.log('Tapped!')} style={styles.view} />
-        </Group>
-        <Group name="Shared Object">
-          <Text>Count: {sharedObjectCount}</Text>
-          <Button title="Read count" onPress={() => setSharedObjectCount(sharedObject.count)} />
-          <Button
-            title="Increment count"
-            onPress={() => {
-              sharedObject.count += 1;
-            }}
-          />
-        </Group>
+        <Text style={styles.header}>Better Dropdown Component</Text>
         {process.env.EXPO_OS === 'ios' && (
-          <Group name="SwiftUI View">
-            <SwiftUIHost style={styles.view}>
+          <Group name="SwiftUI Dropdown">
+            <SwiftUIHost style={styles.host}>
               <BetterDropdownComponentSwiftUIView
-                title="Hello from BetterDropdownComponent"
-                modifiers={[padding({ all: 16 }), cornerRadius(12), background('#f0f0f0')]}>
-                <SwiftUIText>Child content</SwiftUIText>
-              </BetterDropdownComponentSwiftUIView>
+                options={OPTIONS}
+                selectedValue={selectedValue}
+                placeholder="Select a fruit"
+                onValueChange={setSelectedValue}
+                modifiers={[padding({ all: 16 })]}
+              />
             </SwiftUIHost>
-          </Group>
-        )}
-        {process.env.EXPO_OS === 'ios' && (
-          <Group name="SwiftUI Modifier">
-            <SwiftUIHost style={styles.view}>
-              <VStack
-                modifiers={[
-                  padding({ all: 20 }),
-                  betterDropdownComponentSwiftUIModifier({ color: '#FF6B35', width: 3, cornerRadius: 8 }),
-                ]}>
-                <SwiftUIText>Custom modifier example</SwiftUIText>
-              </VStack>
-            </SwiftUIHost>
+            <Text>Selected: {selectedValue ?? 'none'}</Text>
           </Group>
         )}
         {process.env.EXPO_OS === 'android' && (
-          <Group name="Compose View">
-            <ComposeHost style={styles.view}>
+          <Group name="Compose Dropdown">
+            <ComposeHost style={styles.host}>
               <BetterDropdownComponentComposeView
-                title="Hello from BetterDropdownComponent"
-                modifiers={[paddingAll(16), composeBackground('#f0f0f0')]}>
-                <ComposeText>Child content</ComposeText>
-              </BetterDropdownComponentComposeView>
+                options={OPTIONS}
+                selectedValue={selectedValue}
+                placeholder="Select a fruit"
+                onValueChange={setSelectedValue}
+                modifiers={[paddingAll(16)]}
+              />
             </ComposeHost>
-          </Group>
-        )}
-        {process.env.EXPO_OS === 'android' && (
-          <Group name="Compose Modifier">
-            <ComposeHost style={styles.view}>
-              <Column
-                modifiers={[
-                  paddingAll(20),
-                  betterDropdownComponentComposeModifier({ color: 0xFFFF6B35, width: 3, cornerRadius: 8 }),
-                ]}>
-                <ComposeText>Custom modifier example</ComposeText>
-              </Column>
-            </ComposeHost>
+            <Text>Selected: {selectedValue ?? 'none'}</Text>
           </Group>
         )}
       </ScrollView>
@@ -114,5 +62,5 @@ const styles = {
   groupHeader: { fontSize: 20, marginBottom: 20 },
   group: { margin: 20, backgroundColor: '#fff', borderRadius: 10, padding: 20 },
   container: { flex: 1, backgroundColor: '#eee' },
-  view: { flex: 1, height: 200 },
+  host: { width: '100%' as const, height: 60 },
 };
