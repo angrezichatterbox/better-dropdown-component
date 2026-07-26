@@ -2,3 +2,4 @@ export { default as BetterDropdownComponentSwiftUIView } from './BetterDropdownC
 export { default as BetterDropdownComponentComposeView } from './BetterDropdownComponentComposeView';
 export * from './BetterDropdownComponentSwiftUIModifier';
 export * from './BetterDropdownComponentComposeModifier';
+export * from './BetterDropdownComponentOption';
