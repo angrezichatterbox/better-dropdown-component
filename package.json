@@ -49,7 +49,7 @@
     ]
   },
   "peerDependencies": {
-    "@expo/ui": "*",
+    "@expo/ui": ">=55.0.17",
     "expo": "*",
     "react": "*",
     "react-native": "*"

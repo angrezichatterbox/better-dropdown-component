@@ -1,0 +1,1 @@
+{"version":3,"file":"BetterDropdownComponentOption.d.ts","sourceRoot":"","sources":["../src/BetterDropdownComponentOption.ts"],"names":[],"mappings":"AAAA,MAAM,WAAW,iCAAiC;IAChD,6EAA6E;IAC7E,GAAG,CAAC,EAAE,MAAM,CAAC;IACb,gGAAgG;IAChG,OAAO,CAAC,EAAE,MAAM,CAAC;CAClB;AAED,MAAM,WAAW,6BAA6B;IAC5C,KAAK,EAAE,MAAM,CAAC;IACd,KAAK,EAAE,MAAM,CAAC;IACd,IAAI,CAAC,EAAE,iCAAiC,CAAC;CAC1C"}
