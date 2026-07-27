@@ -2,6 +2,7 @@ package expo.modules.betterdropdowncomponent
 
 import android.graphics.Color
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -72,7 +73,11 @@ fun FunctionalComposableScope.BetterDropdownComponentComposeViewContent(
     )
   ) {
     if (hasCustomTrigger) {
-      Box(modifier = Modifier.menuAnchor(ExposedDropdownMenuAnchorType.PrimaryNotEditable, true)) {
+      Box(
+        modifier = Modifier
+          .wrapContentSize()
+          .menuAnchor(ExposedDropdownMenuAnchorType.PrimaryNotEditable, true)
+      ) {
         Children(composableScope)
       }
     } else {
