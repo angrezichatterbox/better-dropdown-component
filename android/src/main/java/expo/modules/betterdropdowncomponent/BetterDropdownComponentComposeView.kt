@@ -101,6 +101,7 @@ fun FunctionalComposableScope.BetterDropdownComponentComposeViewContent(
     ExposedDropdownMenu(
       expanded = expanded,
       onDismissRequest = { expanded = false },
+      matchTextFieldWidth = !hasCustomTrigger,
       shape = RoundedCornerShape(props.cornerRadius.dp),
       containerColor = props.menuBackgroundColor.composeOrNull ?: MenuDefaults.containerColor
     ) {
