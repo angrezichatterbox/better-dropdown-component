@@ -1,6 +1,8 @@
 package expo.modules.betterdropdowncomponent
 
 import android.graphics.Color
+import androidx.compose.foundation.gestures.awaitEachGesture
+import androidx.compose.foundation.gestures.awaitFirstDown
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -19,6 +21,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.input.pointer.PointerEventPass
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.unit.dp
 import expo.modules.kotlin.records.Field
 import expo.modules.kotlin.records.Record
@@ -77,6 +81,17 @@ fun FunctionalComposableScope.BetterDropdownComponentComposeViewContent(
         modifier = Modifier
           .wrapContentSize()
           .menuAnchor(ExposedDropdownMenuAnchorType.PrimaryNotEditable, true)
+          .pointerInput(Unit) {
+            // The custom trigger content (e.g. an IconButton) has its own click
+            // handling that would otherwise consume the tap before it reaches this
+            // anchor. Intercept on the Initial pass and consume it here so the menu
+            // reliably opens regardless of what the trigger content does with it.
+            awaitEachGesture {
+              val down = awaitFirstDown(pass = PointerEventPass.Initial)
+              down.consume()
+              expanded = !expanded
+            }
+          }
       ) {
         Children(composableScope)
       }
